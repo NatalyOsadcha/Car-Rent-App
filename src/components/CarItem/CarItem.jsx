@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useFavoritesCars } from 'context/FavoritesCarsContext';
 import heart from '../img/heart.svg';
 import heartBlue from '../img/heartBlue.svg';
 import CarModal from '../CarModal/CarModal';
@@ -10,13 +11,15 @@ import {
   Span,
   Price,
   Text,
-    Button,
-    Heartbutton,
+  Button,
+  Heartbutton,
 } from './CarItem.styled';
 
 export default function CarItem({ car }) {
-    const [showModal, setShowModal] = useState(false);
-    const [isFavorite, setIsFavorite] = useState(false);
+  const [showModal, setShowModal] = useState(false);
+
+  const { favorites, carToFavorite, addToFavorites, removeFromFavorites } =
+    useFavoritesCars();
 
   const {
     img,
@@ -27,7 +30,7 @@ export default function CarItem({ car }) {
     address,
     rentalCompany,
     type,
-   id,
+    id,
     accessories,
   } = car;
   const location = address.split(',');
@@ -35,19 +38,25 @@ export default function CarItem({ car }) {
   const toggleModal = () => {
     setShowModal(!showModal);
   };
-    
-    const handleAddToFavorite = () => {
-        setIsFavorite(!isFavorite);
-    }
+
+  const isFavorite = carToFavorite[id] || false;
 
   return (
     <>
       <Item>
         <div>
           <Photo src={img} alt={{ make } && { model }} />
-          <Heartbutton type="button" onClick={handleAddToFavorite}>
-                 {isFavorite ? <img src={heartBlue} alt="heart" size={20}/> : <img src={heart} alt="heart" size={20}/> }
-          </Heartbutton>
+
+          {isFavorite ? (
+            <Heartbutton type="button" onClick={() => removeFromFavorites(id)}>
+              <img src={heartBlue} alt="heart" size={20} />{' '}
+            </Heartbutton>
+          ) : (
+            <Heartbutton type="button" onClick={() => addToFavorites(car)}>
+              <img src={heart} alt="heart" size={20} />{' '}
+            </Heartbutton>
+          )}
+
           <ModelWrapper>
             <Title>
               {make} <Span>{model}</Span>, {year}
