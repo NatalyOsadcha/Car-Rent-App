@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
-// import cars from '../../src/cars.json';
 
 import CarsList from '../components/CarsList/CarsList';
 import Searchbar from '../components/Searchbar/Searchbar';
