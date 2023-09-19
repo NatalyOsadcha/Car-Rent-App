@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useSearchParams } from 'react-router-dom';
+// import { useSearchParams } from 'react-router-dom';
 
 import CarsList from '../components/CarsList/CarsList';
 import Searchbar from '../components/Searchbar/Searchbar';
@@ -9,61 +9,44 @@ import fetchCars from '../components/Api/getCars';
 export default function Catalog() {
   const [cars, setCars] = useState([]);
   const [error, setError] = useState('');
-  const [searchParams, setSearchParams] = useSearchParams();
-  const [page, setPage] = useState(1);
+//   const [searchParams, setSearchParams] = useSearchParams();
+    const [page, setPage] = useState(1);
+    const [make, setMake] = useState('');
 
-  const handleSearch = ({ searchCars }) => {
-    // setSearchImage(searchImage);
-    // setIsLoading(false);
-    // setPage(1);
-    // setHits([]);
-    // setTotalHits(null);
+
+ const handleSearch = (searchCars) => {
+setCars(searchCars)
   };
 
-  const handleLoadMore = page => {
-    setPage(page);
+  const handleLoadMore =()=> {
+    setPage(page+1);
   };
-
-  const hideButton = () => {};
-  //   const query = searchParams.get('query');
-
-  //  useEffect(() => {
-  //     if (query === null || query === '') {
-  //       return;
-  //     }
-  //     getMovieByKeyWord(query)
-  //       .then(({ results }) => {
-  //         if (results) {
-  //           setMovies(results);
-  //         }
-  //       })
-  //       .catch(error => {
-  //         setError(error);
-  //       });
-  //   }, [query]);
 
   useEffect(() => {
-    fetchCars(page)
+    fetchCars()
       .then(data => {
-        if (data) {
-          setCars(data);
+          if (data) {
+              setCars(data);
           console.log(data);
         }
       })
       .catch(error => {
         setError(error);
       });
-  }, [page]);
+  }, []);
+    
+const carsPerPage = 8;
+const start = (page - 1) * carsPerPage;
+const end = start + carsPerPage;
+const carsToDisplay = cars.slice(0, end);
 
   return (
     <>
-      {/* <Searchbar onSubmit={handleSearch} /> */}
-      <CarsList cars={cars} />
-      <LoadMoreButton
-        onClick={handleLoadMore}
-        page={page}
-        hideButton={hideButton}
-      />
+      <Searchbar onSubmit={handleSearch} cars={cars} />
+      <CarsList cars={carsToDisplay}  />
+       {end < cars.length && (
+        <LoadMoreButton onClick={handleLoadMore} page={page}/>
+      )}
     </>
   );
 }

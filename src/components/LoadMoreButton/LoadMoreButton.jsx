@@ -1,6 +1,6 @@
 import { LoadButton } from './LoadMoreButton.styled';
 
-export default function LoadMoreButton({ page, onClick, hideButton }) {
+export default function LoadMoreButton({ page, onClick}) {
   const handlePage = () => {
     let changePage = page;
     changePage += 1;
@@ -10,7 +10,6 @@ export default function LoadMoreButton({ page, onClick, hideButton }) {
     <LoadButton
       type="button"
       onClick={handlePage}
-      style={{ display: hideButton() }}
     >
       Load more
     </LoadButton>
