@@ -18,7 +18,7 @@ import {
 export default function CarItem({ car }) {
   const [showModal, setShowModal] = useState(false);
 
-  const { favorites, carToFavorite, addToFavorites, removeFromFavorites } =
+  const { carToFavorite, addToFavorites, removeFromFavorites } =
     useFavoritesCars();
 
   const {
