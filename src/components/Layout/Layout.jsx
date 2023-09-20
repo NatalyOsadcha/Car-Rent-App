@@ -1,6 +1,7 @@
 import React, { Suspense } from 'react';
 import { Outlet } from 'react-router-dom';
 import { Container, Header, Nav, StyledLink } from './Layout.styled';
+import Loader from 'components/Loader/Loader';
 export default function Layout() {
   return (
     <Container style={{ maxWidth: 1184, margin: '0 auto'}}>
@@ -12,7 +13,7 @@ export default function Layout() {
         </Nav>
       </Header>
       <main>
-        <Suspense fallback={<div>Loading...</div>}>
+        <Suspense fallback={<Loader/>}>
           <Outlet />
         </Suspense>
       </main>

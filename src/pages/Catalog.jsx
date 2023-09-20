@@ -5,6 +5,7 @@ import Searchbar from '../components/Searchbar/Searchbar';
 import NotAvailable from '../components/NotAvaliable/NotAvailable ';
 import LoadMoreButton from '../components/LoadMoreButton/LoadMoreButton';
 import fetchCars from '../components/Api/getCars';
+import Loader from '../components/Loader/Loader'
 
 export default function Catalog() {
   const [cars, setCars] = useState([]);
@@ -50,8 +51,9 @@ export default function Catalog() {
 
   return (
     <Container>
-      <Searchbar onSubmit={handleSearch} onReset={handleReset} cars={cars} />
-      <CarsList cars={carsToDisplay} />
+      {cars.length > 0 ?
+        (<Searchbar onSubmit={handleSearch} onReset={handleReset} cars={cars} /> &&
+        <CarsList cars={carsToDisplay} />) : <Loader/>}
       {end < cars.length && (
         <LoadMoreButton onClick={handleLoadMore} page={page} />
       )}
