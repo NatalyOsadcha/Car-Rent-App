@@ -51,9 +51,9 @@ export default function Catalog() {
 
   return (
     <Container>
+      <Searchbar onSubmit={handleSearch} onReset={handleReset} cars={cars} />
       {cars.length > 0 ?
-        (<Searchbar onSubmit={handleSearch} onReset={handleReset} cars={cars} /> &&
-        <CarsList cars={carsToDisplay} />) : <Loader/>}
+        <CarsList cars={carsToDisplay} /> : <Loader/>}
       {end < cars.length && (
         <LoadMoreButton onClick={handleLoadMore} page={page} />
       )}
