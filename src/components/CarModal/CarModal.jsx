@@ -8,7 +8,7 @@ import CarCard from 'components/CarCard/CarCard';
 
 const carModalRoot = document.querySelector('#modal-root');
 
-export default function CarModal({ toggleModal, car }) {
+export default function CarModal({ toggleModal, car}) {
   /// Close modal by pressing Escape ///
 
   useEffect(() => {

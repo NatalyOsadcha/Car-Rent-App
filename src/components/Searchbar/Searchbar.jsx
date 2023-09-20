@@ -10,32 +10,8 @@ import {
   // ErrorsMessage,
 } from './Searchbar.styled';
 
-export default function SearchBar({ cars, onSubmit }) {
+export default function SearchBar({ cars, onSubmit, onReset }) {
   const SearchBarValidationSchema = yup.object().shape({});
-
-  // const carMakes = [
-  //   'Aston Martin',
-  //   'Audi',
-  //   'BMW',
-  //   'Bentley',
-  //   'Buick',
-  //   'Chevrolet',
-  //   'Chrysler',
-  //   'GMC',
-  //   'HUMMER',
-  //   'Hyundai',
-  //   'Kia',
-  //   'Lamborghini',
-  //   'Land Rover',
-  //   'Lincoln',
-  //   'MINI',
-  //   'Mercedes-Benz',
-  //   'Mitsubishi',
-  //   'Nissan',
-  //   'Pontiac',
-  //   'Subaru',
-  //   'Volvo',
-  // ];
 
   const carMakes = Array.from(new Set(cars.map(car => car.make))).sort();
 
@@ -48,6 +24,11 @@ export default function SearchBar({ cars, onSubmit }) {
     carPrices.push(price);
   }
 
+  const handleReset = () => {
+    formik.resetForm();
+    onReset();
+  };
+
   const formik = useFormik({
     initialValues: {
       make: '',
@@ -57,20 +38,14 @@ export default function SearchBar({ cars, onSubmit }) {
     },
     validationSchema: SearchBarValidationSchema,
 
-    onSubmit: (values, action) => {
-      console.log(values);
-      console.log(action);
-
+    onSubmit: values => {
       let searchCars = cars;
 
       if (values.make !== '') {
-        console.log('brand!');
-        // Filter by 'make' if 'make' is selected
         searchCars = searchCars.filter(car => car.make === values.make);
       }
 
       if (values.rentalPrice !== '') {
-        console.log('price!');
         searchCars = searchCars.filter(car => {
           const carRentalPrice = parseFloat(car.rentalPrice.replace('$', ''));
           return carRentalPrice <= values.rentalPrice;
@@ -78,7 +53,6 @@ export default function SearchBar({ cars, onSubmit }) {
       }
 
       if (values.mileageFrom !== '') {
-        console.log('milefrom!');
         searchCars = searchCars.filter(car => {
           const carMileage = Number(car.mileage);
           const mileageFrom = Number(values.mileageFrom);
@@ -87,7 +61,6 @@ export default function SearchBar({ cars, onSubmit }) {
       }
 
       if (values.mileageTo !== '') {
-        console.log('mile to!');
         searchCars = searchCars.filter(car => {
           const carMileage = Number(car.mileage);
           const mileageTo = Number(values.mileageTo);
@@ -96,13 +69,10 @@ export default function SearchBar({ cars, onSubmit }) {
       }
 
       if (searchCars.length === 0) {
-        console.log('The end!');
         console.log('Nothing found by your request');
       }
 
-      console.log(searchCars);
       onSubmit(searchCars);
-      //  action.resetForm();
     },
   });
 
@@ -193,7 +163,9 @@ export default function SearchBar({ cars, onSubmit }) {
           </MileWrapper>
         </div>
         <Button type="submit">Search</Button>
-        <Button type="button">Reset</Button>
+        <Button type="submit" onClick={handleReset}>
+          Reset
+        </Button>
       </Wrapper>
     </form>
   );

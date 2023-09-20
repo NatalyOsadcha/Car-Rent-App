@@ -12,7 +12,7 @@ import {
     FontSpan
 } from './CarCard.styled';
 
-export default function CarCard({ toggleModal, car }) {
+export default function CarCard({ toggleModal, car}) {
   const {
     img,
     make,
