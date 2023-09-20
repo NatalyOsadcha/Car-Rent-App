@@ -15,7 +15,7 @@ import {
   Heartbutton,
 } from './CarItem.styled';
 
-export default function CarItem({ car}) {
+export default function CarItem({ car }) {
   const [showModal, setShowModal] = useState(false);
 
   const { carToFavorite, addToFavorites, removeFromFavorites } =
@@ -76,4 +76,3 @@ export default function CarItem({ car}) {
     </>
   );
 }
-
